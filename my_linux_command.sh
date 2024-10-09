@@ -32,7 +32,13 @@ echo "hello world"
 ## Run the script
 # ./my_linux_command.sh
 
-# Set an environment variable namely age with value 30 and in the .sh file access the variable and echo it
+## Set an environment variable namely age with value 30 and in the .sh file access the variable and echo it
 #!/bin/bash
 export age=30
 echo "Age is: $age"
+
+## Now set global environment variable namely experience with value 4 and echo it from the .sh file
+# nano ~/.bashrc
+# export experience=4
+# source ~/.bashrc
+echo "Experience is: $experience"
