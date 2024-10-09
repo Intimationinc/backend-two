@@ -42,3 +42,6 @@ echo "Age is: $age"
 # export experience=4
 # source ~/.bashrc
 echo "Experience is: $experience"
+
+## Generate a ssh keypair with keygen
+# ssh-keygen -t rsa -b 4096 -C "abdurrakib961@gmail.com"
