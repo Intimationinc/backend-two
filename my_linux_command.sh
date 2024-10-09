@@ -1,9 +1,10 @@
 #!/bin/bash
-echo "Hello World"
-var="Hello World"
- 
-# print it 
-echo "$var"
- 
-# Another way of printing it
-printf "%s\n" "$var"
+
+myno=1511
+print() {
+  echo "passed the param $1"
+}
+
+print "its good"
+echo $myno
+exit 0
