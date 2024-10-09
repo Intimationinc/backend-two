@@ -52,3 +52,11 @@ if [ $response -eq 200 ]; then
 else
    echo "Fail"
 fi
+
+# Using cron set a job so that every 1 minute the .sh script is run and you can check if google.com is really working
+# cronjob list
+crontab -l
+# edit crontab
+crontab -e
+# add cronjob to the crontab which will run every 1 minute and log it in cron_output.log
+* * * * * /home/rakib/Desktop/exercise/backend-two/my_linux_command.sh >> /home/rakib/Desktop/exercise/backend-two/cron_output.log 2>&1
