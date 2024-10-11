@@ -52,4 +52,8 @@ google.com is really working
 
  git branch 0
  git checkout  0
+ git checkout hasanashik100@gmail_python
+ git merge 0
+ git push origin hasanashik100@gmail_python
+  
  
