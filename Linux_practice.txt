@@ -1,0 +1,64 @@
+1. Go to users home directory: 
+    $cd ~
+2. Go to root directory : 
+    $ cd /
+3. In users home directory create a new folder and move inside the folder:
+    $ cd ~ & mkdir myfolder & cd myfolder
+4. Create a new text file inside new directory
+    $ touch newfile.txt
+5. Go to previous directory:
+    $ cd ..
+6. Remove the directory:
+    $ rm -rf myfolder
+7. Create a .sh file and write echo “hello world” inside it with shebang syntax:
+    $ cd ~ & nano my_linux_command.sh
+    #!/bin/bash
+    echo "hello world"
+8. Set permission to executable to the file
+    $ chmod +x my_linux_command.sh
+9. Run the .sh file
+    $ ./my_linux_command.sh
+10. Set an environment variable namely age with value 30 and in the .sh file access the variable and echo it:
+    $ nano my_linux_command.sh
+    #!/bin/bash
+    echo "Age From Environment Variable: $age"
+    $ age=30 sh my_linux_command.sh
+11. Now set global environment variable namely experience with value 4 and echo it from the .sh file
+    $nano my_linux_command.sh
+    #!/bin/bash
+    echo "Experience from global variable: $experience"
+    $ export experience=4 & sh my_linux_command.sh
+12. Generate a ssh keypair with keygen
+    $ ssh-keygen -t rsa -b 2048
+13. See list of process currently running and write down first 3 process’s id
+    $ ps -e // to show all the process with header
+    $ ps -e | head -n 4 // show the first 3 process with header
+    $ ps -e | awk 'NR>1' | head -n 3 // show the first three process without header
+    $ ps -e | awk 'NR>1 {print $1}' | head -n 3 // show the first three process without header and only PID
+
+14. Now create another .sh file/shell script which can fetch some data using curl from www.google.com , If the request is successful it should echo “success” otherwise “fail”
+    $ nano my_linux_command.sh
+    #!/bin/bash
+    url="www.google.com"
+    if curl -s --head --request GET $url | grep "200 OK" >/dev/null;then
+        echo "success"
+    else
+        echo "fail"
+    fi
+
+15. Using cron set a job so that every 1 minute the .sh script is run and you can check if google.com is really working
+    $ nano my_linux_command.sh
+    #!/bin/bash
+    url="www.google.com"
+    curl -s --head --request GET $url | grep "200 OK" >/dev/null
+    if [ $? -eq 0 ];then
+        echo "Google Is Running, checked at: $(date +"%Y-%m-%d %T")"
+    else
+        echo "Not responding, Checked at: $(date +"%Y-%m-%d %T")"
+    fi
+    $ crontab -e
+    # add the following line
+    */1 * * * * /<path>/my_linux_command.sh >> /<path>/cron_output.log 2>&1
+    $ crontab -l // to see the cron jobs
+    $ tail <path>cron_output.log // To see the output of the cronjob
+
