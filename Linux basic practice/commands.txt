@@ -1,0 +1,55 @@
+Creating git branch: 
+ git branch hasanashik100@gmail_python
+ git checkout  hasanashik100@gmail_python
+
+1. Go to users home directory: cd /home
+2. Go to root directory: cd /root
+3. In users home directory create a new folder and move inside the folder: mkdir basic_linux_practice
+4. Create a new text file inside new directory: touch textfile.txt
+5. Go to previous directory: cd ../
+6. Remove the directory: rm -R basic_linux_practice/
+7. Create a .sh file and write echo “hello world” inside it with shebang syntax: 
+	echo "Hello World!";
+
+8. Set permission to executable to the file
+	chmod +x google_check.sh 
+	ls -al
+	-rwxr-xr-x 1 root  root  109 Sep 22 01:38 google_check.sh
+9. Run the .sh file: ./google_check.sh
+10. Set an environment variable namely age with value 30 and in the .sh file access the
+	variable and echo it: 
+
+	export age=30
+	nano print_age.sh
+	chmod +x print_age.sh
+	./print_age.sh
+11. Now set global environment variable namely experience with value 4 and echo it
+from the .sh file:
+	Modify /etc/environment (Global for all users)
+		sudo nano /etc/environment
+		experience=4
+	log out and log back in for the changes to take effect.
+	echo $experience;
+12. Generate a ssh keypair with keygen: 
+ssh-keygen -t rsa -b 4096 -m PEM -C "hasanashik100@gmail.com" -f "/g/pem file/my/mykey.pem"
+13:  See list of process currently running and write down first 3 process’s id
+	ps -e | awk '{print $1}' | head -n 4
+14: Now create another .sh file/shell script which can fetch some data using curl from
+www.google.com , If the request is successful it should echo “success” otherwise “fail”
+	google_check.sh
+		curl -s --head www.google.com > /dev/null
+
+		if [ $? -eq 0 ];  then
+			echo "success"
+		else
+			echo "fail"
+		fi
+
+15: Using cron set a job so that every 1 minute the .sh script is run and you can check if
+google.com is really working
+* * * * * /home/zaman/basic_linux_practice/google_check.sh>>/home/zaman/basic_linux_practice/google_check.out
+
+
+ git branch 0
+ git checkout  0
+ 
