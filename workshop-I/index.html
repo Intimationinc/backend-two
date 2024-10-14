@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Chat</title>
+  <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+</head>
+<body>
+  <h1>Public Chat</h1>
+  <ul id="messages"></ul>
+
+  <script>
+    // Replace 'your-app-key' with your actual Pusher app key
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('your-app-key', {
+      cluster: 'mt1'
+    });
+
+    // Subscribe to the public channel 'chat-room'
+    var channel = pusher.subscribe('chat-room');
+
+    // Bind to the 'message' event
+    channel.bind('message', function(data) {
+      var li = document.createElement("li");
+      li.textContent = data.username + ": " + data.content;
+      document.getElementById("messages").appendChild(li);
+    });
+
+    // Simulate sending a message
+    function sendMessage(username, content) {
+      fetch('http://localhost:8080/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: username, content: content })
+      }).then(response => response.json())
+        .then(data => console.log("Message sent:", data));
+    }
+
+    // Example: send a message after 3 seconds
+    setTimeout(function() {
+      sendMessage('User2', 'Hello from User2');
+    }, 3000);
+  </script>
+</body>
+</html>

@@ -2,12 +2,15 @@ package main
 
 import (
 	"workshop-i/middlewares"
+	"workshop-i/websocket"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	r := gin.Default()
+
+	// =========== cache control part ============
 
 	// Apply public cache middleware (with 3600 seconds max-age)
 	r.GET("/public", middlewares.PublicCacheControl(), func(c *gin.Context) {
@@ -29,6 +32,17 @@ func main() {
 			"message": "This resource should not be cached.",
 		})
 	})
+
+	// =========== web socket part =============
+
+	// WebSocket endpoint
+	r.GET("/ws/chat", websocket.HandlePublicChannel)
+
+	// REST API to send messages
+	r.POST("/send", websocket.HandleSendMessage)
+
+	// Start broadcasting messages
+	go websocket.HandleMessageBroadcast()
 
 	r.Run(":8080")
 }
