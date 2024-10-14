@@ -1,0 +1,77 @@
+# OS
+# ===========
+.DS_Store
+ehthumbs.db
+Thumbs.db
+.env
+TODO.md
+mongodb.conf
+
+# Node and related ecosystem
+# ==========================
+.nodemonignore
+.sass-cache/
+node_modules/
+public/lib/
+app/tests/coverage/
+.bower-*/
+.idea/
+coverage/
+data
+
+# Sublime editor
+# ==============
+.sublime-project
+*.sublime-project
+*.sublime-workspace
+
+# Eclipse project files
+# =====================
+.project
+.settings/
+.*.md.html
+.metadata
+*~.nib
+local.properties
+
+# IntelliJ
+# ========
+*.iml
+
+# Cloud9 IDE
+# =========
+.c9/
+data/
+mongodb.conf
+
+# Visual Studio
+# =========
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Courtesy of https://github.com/meanjs/mean/blob/master/.gitignore
+__temp__ca.pem
+
+### Vim ###
+# swap
+[._]*.sw[a-p]
+
+## Terraform ###
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# place to keep environment variables
+local.env
+
+### drawio ***
+# DrawIO temporary files
+*.dtmp
+*.bkp
+
+.vscode
