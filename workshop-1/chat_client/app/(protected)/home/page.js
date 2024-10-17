@@ -7,6 +7,7 @@ import UserCard from "@/app/components/userCard";
 import useUserStore from "@/stores/useStore";
 import axios from "axios";
 import { BASE } from "@/app/utils/constant";
+import dayjs from "dayjs";
 
 const { io } = require("socket.io-client");
 
@@ -14,8 +15,6 @@ const socket = io('ws://localhost:3001');
 
 export default function Chat() {
   const user = useUserStore((state) => state.user); // Access the user data
-
-  console.log("user",user);
   
   const [selectedUser, setSelectedUser] = useState();
   const [messageInput, setMessageInput] = useState("");
@@ -35,6 +34,17 @@ export default function Chat() {
     socket.on("disconnect", () => {
       console.log("Socket disconnected"); // undefined
     });
+    
+    socket.on("message", (data) => {      
+      setMessages((prev)=>[...prev, data])
+      // someone sent a message
+      // handleFetchMessages()
+    });
+    return () => {
+      socket.off("message");
+      socket.off("connect");
+      socket.off("disconnect");
+    };
   },[])
 
   const handleUserClick = (user) => {
@@ -53,10 +63,7 @@ export default function Chat() {
       });
   
       if (response.status === 200) {
-        console.log("response",response);
-        
         const messages = response.data.data || [];
-        console.log("Messages fetched successfully", messages);
         setMessages(messages);
       } else {
         console.error("Failed to fetch messages");
@@ -67,7 +74,7 @@ export default function Chat() {
   };
   
   const handleSendMessage = async () => {
-    if (!messageInput) return; // Don't send if the message input is empty
+    if (!messageInput || !user?.token) return; // Don't send if the message input is empty
   
     try {
       const response = await axios.post(`${BASE}/message/send`, {
@@ -77,15 +84,11 @@ export default function Chat() {
         headers: {
           "Authorization": `Bearer ${user?.token}`, // Sending Bearer token in headers
         }
-      });
-
-      console.log("response",response);
-      
+      });      
   
       if (response.status === 201) {
+        socket.emit("message",{message: messageInput, sender_id: user.id, sender_name: user.username, receiver_id: selectedUser?.id || null, createdAt: dayjs()})
         setMessageInput(""); // Clear the message input after successful send
-        console.log("Message sent successfully");
-        handleFetchMessages(); // Fetch the updated messages after sending
       } else {
         console.error("Failed to send message");
       }
@@ -102,7 +105,7 @@ export default function Chat() {
     <ProtectedRoute>
       <div className="flex h-screen">
         {/* Left column: User list */}
-        <div className="w-1/5 h-full p-4 overflow-y-auto bg-gray-100">
+        <div className="!min-w-[300px] h-full p-4 overflow-y-auto bg-gray-100">
           <h2 className="text-xl font-semibold mb-4">Users</h2>
           <div className="space-y-4">
             {users.map((user) => (
@@ -126,7 +129,7 @@ export default function Chat() {
           </h2>
 
           {/* Scrollable Messages Area */}
-          <div className="flex-1 space-y-4 !max-h-[80vh] overflow-y-auto">
+          <div className="flex-1 space-y-4 !max-h-[80vh] !overflow-y-auto">
             {messages && messages.map((message) => (
               <MessageCard
                 key={message.id}

@@ -21,13 +21,24 @@ app.use("/message", verifyToken, messageRouter);
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
-      origin: "*"
+        origin: "*"
     }
-  });
-
-io.on("connection", (socket) => {
-    console.log("socketId",socket.id);
 });
+
+// Handle socket connections
+io.on("connection", (socket) => {
+    console.log("socketId", socket.id);
+    
+    // Listen for message events on this socket connection
+    socket.on("message", (data) => {        
+        // Broadcast the message to all connected clients (if needed)
+        io.emit("message", data);
+    });
+});
+
+
+// Increase the limit of listeners if needed (optional, but generally not recommended)
+io.setMaxListeners(20); // You can adjust this number
 
 httpServer.listen(process.env.PORT, async () => {
     console.log(`Example app listening on port ${process.env.PORT}`);
@@ -38,6 +49,3 @@ httpServer.listen(process.env.PORT, async () => {
         console.log("Unable to connect to the database:", error);
     }
 });
-
-
-

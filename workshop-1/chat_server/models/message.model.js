@@ -4,7 +4,7 @@ class Message {
     constructor() { }
 
     async getAllMessages({ receiverId }) {
-        let query = `SELECT messages.*, users.username as sender_name FROM messages inner join users on users.id = messages.sender_id`;
+        let query = `SELECT messages.*, users.username as sender_name FROM messages inner join users on users.id = messages.sender_id ORDER BY created_at asc`;
         const params = [];
         if(receiverId){
             query += ` WHERE receiver_id=?`;
