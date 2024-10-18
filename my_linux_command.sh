@@ -9,4 +9,4 @@ if [ "$response" -eq 200 ]; then
 else
     echo "Google Failed $response"
 fi
-echo "Cron job executed at $(date)" >> /Users/shikho/Desktop/intimation/cron.log
+echo "Cron job executed at $(date)"
