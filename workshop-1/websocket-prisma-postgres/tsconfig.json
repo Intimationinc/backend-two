@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
+  },
+  "include": [
+    "src/**/*.ts",       // Ensure all TypeScript files in src/ are included
+    ".eslintrc.js",      // Include ESLint config file if it needs linting
+    "**/*.ts",           // Include all .ts files
+    "**/*.js"            // Include .js files like .eslintrc.js
+  ],// Add this line to include your source files
+  "exclude": ["node_modules", "dist"] // Exclude built files and dependencies
+}
+

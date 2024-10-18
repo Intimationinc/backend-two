@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat App</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+      }
+      .chat-box {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: white;
+      }
+      .chat-messages {
+        height: 300px;
+        overflow-y: scroll;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+      }
+      .input-group {
+        margin-top: 15px;
+      }
+      #loginArea {
+        margin-top: 20px;
+      }
+      .message {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 10px;
+      }
+      .message .username {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+      .message .content {
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .message .sender .content {
+        background-color: #e0f7fa; /* Light blue for sender messages */
+      }
+      .message .receiver .content {
+        background-color: #fce4ec; /* Light pink for receiver messages */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-4">
+      <h1 class="text-center mb-4">Chat Application</h1>
+
+      <!-- Public and Private Chat Sections -->
+      <div class="row">
+        <!-- Public Chat Section -->
+        <div class="col-lg-6 col-md-12 mb-3">
+          <div class="chat-box shadow-sm">
+            <h2 class="h5 mb-3">Public Messages</h2>
+            <div id="publicMessages" class="chat-messages mb-3"></div>
+            <div class="input-group">
+              <input
+                type="text"
+                id="publicMessageInput"
+                class="form-control"
+                placeholder="Type your message here"
+              />
+              <button id="sendPublicMessageButton" class="btn btn-primary">
+                Send
+              </button>
+            </div>
+            <button id="joinPublicButton" class="btn btn-success mt-3">
+              Join Public Channel
+            </button>
+          </div>
+        </div>
+
+        <!-- Private Chat Section -->
+        <div class="col-lg-6 col-md-12">
+          <div class="chat-box shadow-sm">
+            <h2 class="h5 mb-3">Private Messages</h2>
+            <div id="privateMessages" class="chat-messages mb-3"></div>
+            <div class="input-group">
+              <input
+                type="text"
+                id="privateMessageInput"
+                class="form-control"
+                placeholder="Type your message here"
+                disabled
+              />
+              <button
+                id="sendPrivateMessageButton"
+                class="btn btn-primary"
+                disabled
+              >
+                Send
+              </button>
+            </div>
+            <button
+              id="joinPrivateButton"
+              class="btn btn-success mt-3"
+              disabled
+            >
+              Join Private Channel
+            </button>
+            <div id="loginArea" class="mt-4">
+              <h3 class="h6">Login for Private Messaging</h3>
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  id="username"
+                  class="form-control"
+                  placeholder="Username"
+                  required
+                />
+              </div>
+              <div class="input-group mb-3">
+                <input
+                  type="password"
+                  id="password"
+                  class="form-control"
+                  placeholder="Password"
+                  required
+                />
+              </div>
+              <button id="loginButton" class="btn btn-primary" disabled>
+                Login
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      let socket;
+      let token;
+
+      const loginButton = document.getElementById('loginButton');
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+
+      // Initially disable the login button
+      loginButton.disabled = true;
+
+      // Function to check inputs and enable/disable the button
+      function checkInputs() {
+        const userNameValue = usernameInput.value.trim(); // Get username value and trim whitespace
+        const passwordValue = passwordInput.value.trim(); // Get password value and trim whitespace
+
+        // Enable button if both fields have values
+        loginButton.disabled = !(userNameValue && passwordValue);
+      }
+
+      // Attach event listeners to check inputs on keyup
+      usernameInput.addEventListener('keyup', checkInputs);
+      passwordInput.addEventListener('keyup', checkInputs);
+      // Connect to the WebSocket server without token (for public messages)
+      function connectToPublicWebSocket() {
+        socket = io('http://localhost:8000');
+
+        socket.on('connect', () => {
+          console.log('Connected to WebSocket (Public)');
+        });
+
+        socket.on('publicMessage', (message) => {
+          const publicMessagesDiv = document.getElementById('publicMessages');
+          publicMessagesDiv.innerHTML += `<div class="alert alert-info">Annonymous: ${message}</div>`;
+        });
+      }
+
+      // Connect to the WebSocket server for private messages
+      // Connect to the WebSocket server for private messages
+      function connectToPrivateWebSocket() {
+        socket = io('http://localhost:8000', {
+          extraHeaders: {
+            Authorization: `Bearer ${token}`, // Set the token in the Authorization header
+          },
+        });
+
+        socket.on('connect', () => {
+          console.log('Connected to WebSocket (Private)');
+        });
+
+        socket.on('privateMessage', (message) => {
+          const privateMessagesDiv = document.getElementById('privateMessages');
+          privateMessagesDiv.innerHTML += `<div class="alert alert-success">${username}: ${message}</div>`;
+        });
+      }
+
+      // Handle public messaging
+      document.getElementById('sendPublicMessageButton').onclick = function () {
+        const message = document.getElementById('publicMessageInput').value;
+        socket.emit('publicMessage', message);
+        document.getElementById('publicMessageInput').value = ''; // Clear input
+      };
+
+      // Join public channel
+      document.getElementById('joinPublicButton').onclick = function () {
+        socket.emit('joinPublic');
+        document.getElementById('joinPublicButton').style.display = 'none';
+      };
+
+      // Show login for private chat
+      document.getElementById('loginArea').style.display = 'block';
+
+      let username; // Store the logged-in username
+
+      document.getElementById('loginButton').onclick = async function () {
+        const usernameInput = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        const response = await fetch('http://localhost:8000/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username: usernameInput, password }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          token = data.access_token; // Store the JWT token
+          username = usernameInput; // Store the username
+
+          // Hide login area and enable private messaging inputs
+          document.getElementById('loginArea').style.display = 'none';
+          document.getElementById('privateMessageInput').disabled = false;
+          document.getElementById('sendPrivateMessageButton').disabled = false;
+          document.getElementById('joinPrivateButton').disabled = false;
+
+          // Connect to private WebSocket with JWT token
+          connectToPrivateWebSocket();
+        } else {
+          alert('Login failed. Please check your credentials.');
+        }
+      };
+
+      // Handle private messaging
+      document.getElementById('sendPrivateMessageButton').onclick =
+        function () {
+          const message = document.getElementById('privateMessageInput').value;
+          socket.emit('privateMessage', message);
+          document.getElementById('privateMessageInput').value = ''; // Clear input
+        };
+
+      // Join private channel (after login)
+      document.getElementById('joinPrivateButton').onclick = function () {
+        socket.emit('joinPrivate');
+        document.getElementById('joinPrivateButton').style.display = 'none';
+      };
+
+      // Start by connecting to the public WebSocket
+      connectToPublicWebSocket();
+    </script>
+  </body>
+</html>
