@@ -5,6 +5,13 @@ a public channel and
 a private channel, 
 each accessible via their respective REST API endpoints (/public and /private).
 
+Create a web page from where client will connect to public / private channel.
+   
+   Messages sent to a public channel are broadcasted to all users subscribed to that channel.
+   Private channels are restricted to specific users or groups. 
+   Only users with the proper authorization can subscribe to or receive messages from a private channel.
+   
+
 Public Channel Implementation:
 First, I will create a basic JavaScript program that connects to the WebSocket server, joins the public channel, 
 and enables the sending and receiving of messages.
