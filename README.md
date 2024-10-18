@@ -3,16 +3,17 @@ This repository is for submitting tasks and assignments, doing practices and eva
 
 ### Participants must do now
 
-- Clone this repository
+- Fork this repository
+- Clone the forked repository to your local
 - Create a branch with same name as your email_stack. Ex. zahan@gmail_golang
 - Add a file namely my_linux_command.sh
 - Add the content of the custom linux executable that you wrote for linux practice
-- Send a PR 
-- Do not merge any PR before it's approved
+- Push your local changes to the forked repositorty
+- Send a PR from the forked reposiotory to this repository
 
 ### Assignment Submission protocol
 
-- Add folder with the workshop number
+- Add branch with the workshop number inside the branch you created above
 - Add your related codes to the folder
 - Send PR & add Reviewer on github
     - Reviewer must be one participant from the same stack.
