@@ -1,0 +1,9 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+
+  .group-names,
+  .group-chats {
+    width: 50%;
+  }
+}

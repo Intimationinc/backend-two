@@ -1,0 +1,22 @@
+<div class="wrapper">
+  <div class="group-names">
+    <h1>Group Names</h1>
+    <label>Create or Join</label>
+    <br />
+    <input type="text" [(ngModel)]="groupName" />
+    <button (click)="onJoinOrCreateGroup()">Create / Join</button>
+    @for (group of groups; track $index) {
+    <li (click)="selectedGroup = group">{{ group.name }}</li>
+    }
+  </div>
+  <div class="group-chats">
+    @if (selectedGroup) {
+    <h1>Group Chats</h1>
+    @for (message of selectedGroup.messages; track $index) {
+    <li>{{ message.text }}</li>
+    }
+    <input type="text" [(ngModel)]="message" />
+    <button (click)="onGroupMessageSend()">Send</button>
+    }
+  </div>
+</div>

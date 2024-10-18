@@ -1,0 +1,8 @@
+<input type="text" [(ngModel)]="message" />
+<button (click)="onPublicMessageSend()">send</button>
+
+<h1>Public Messages</h1>
+
+@for (item of messages; track $index) {
+<li>{{ item.text }}</li>
+}
