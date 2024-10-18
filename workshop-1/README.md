@@ -57,7 +57,7 @@ The chat application facilitates both public and private channels, allowing user
 
 ### Steps
 
-1. Clone the repository.
+1. Please check the folder structure.
 2. Navigate to the project directory (websocket-prisma-postgres).
 3. Install the required dependencies.
 4. Set up the PostgreSQL database and configure environment variables.
