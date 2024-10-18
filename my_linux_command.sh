@@ -1,5 +1,5 @@
 cd ~
-mkdr fld
+mkdir fld
 mkdir my_new_folder
 cd fld
 ls -la
