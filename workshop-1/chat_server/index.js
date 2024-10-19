@@ -6,6 +6,7 @@ const messageRouter = require("./routes/message.routes");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const cors = require('cors');
+const channelRouter = require("./routes/channel.routes");
 
 require("dotenv").config();
 
@@ -17,6 +18,7 @@ app.use(cors())
 
 app.use("/user", userRouter);
 app.use("/message", verifyToken, messageRouter);
+app.use("/channel", verifyToken, channelRouter);
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
@@ -27,12 +29,15 @@ const io = new Server(httpServer, {
 
 // Handle socket connections
 io.on("connection", (socket) => {
-    console.log("socketId", socket.id);
     
     // Listen for message events on this socket connection
     socket.on("message", (data) => {        
         // Broadcast the message to all connected clients (if needed)
         io.emit("message", data);
+    });
+
+    socket.on("channel", (data) => {        
+        io.emit("channel", data);
     });
 });
 

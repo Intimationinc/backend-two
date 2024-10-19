@@ -5,9 +5,14 @@ const useUserStore = create(
   persist(
     (set) => ({
       user: null,
+      channelCreated: false,
 
       setUser: (user, token) => {
         set({ user, token });
+      },
+
+      setChannelCreated: (value) => {
+        set({ channelCreated: value });
       },
 
       logout: () => {

@@ -6,10 +6,10 @@ module.exports = {
         try {
             const currentUser = request.user;
             
-            const {receiverId} = request.query;
+            const {receiverId, channelId} = request.query;
             const message = new Message();
 
-            const messages = await message.getAllMessages({ receiverId: receiverId ? String(receiverId) : null});
+            const messages = await message.getAllMessages({ receiverId: receiverId ? String(receiverId) : null, channelId: channelId ? String(channelId) : null});
 
             return getSuccessResponse({
                 response,
@@ -27,14 +27,14 @@ module.exports = {
     sendMessage: async (request, response) => {
         try {
             const currentUser = request.user;
-            const { message,receiverId} = request.body;
+            const { message,receiverId, channelId} = request.body;
 
             if (!message) return getErrorResponse({ response, code: 400, message: "Missing required parameters" });
 
             const messageObj = new Message();
 
             // create the message
-            await messageObj.sendMessage({ senderId: currentUser.id, message, receiverId });
+            await messageObj.sendMessage({ senderId: currentUser.id, message, receiverId, channelId });
 
             return getSuccessResponse({
                 response,
