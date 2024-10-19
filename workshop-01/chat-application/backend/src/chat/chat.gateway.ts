@@ -78,7 +78,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     client.join(room);
     const username = this.clientUsernames.get(client.id);
     this.logger.log(`Client ${client.id}  as ${username} joined room: ${room}`);
-    client.emit('joined-room', `You joined room: ${room}`);
+    client.emit('joined-room', room);
   }
 
   // Send private message to a specific room

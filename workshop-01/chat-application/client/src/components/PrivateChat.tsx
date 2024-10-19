@@ -3,8 +3,8 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { Socket } from "socket.io-client";
 
-type CHANNEL_MESSAGE = {
-  channel: string;
+type PRIVATE_MESSAGE = {
+  room: string;
   username: string;
   text: string;
   timestamp: string;
@@ -18,39 +18,41 @@ interface PrivateChatProps {
 
 const PrivateChat: React.FC<PrivateChatProps> = ({ socket, username }) => {
   const navigate = useNavigate();
-  const [channel, setChannel] = useState<string>("");
-  const [channelMessages, setChannelMessages] = useState<CHANNEL_MESSAGE[]>([]);
+  const [room, setRoom] = useState<string>("");
+  const [joinedRoom, setJoinedRoom] = useState<string>("");
+  const [roomMessages, setRoomMessages] = useState<PRIVATE_MESSAGE[]>([]);
   const [message, setMessage] = useState<string>("");
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    socket.on("channel-message", (data: CHANNEL_MESSAGE) => {
-      if (data.channel === channel) {
-        setChannelMessages((prev) => [...prev, data]);
+    socket.on("private-message", (data: PRIVATE_MESSAGE) => {
+      if (data.room === room) {
+        setRoomMessages((prev) => [...prev, data]);
       }
     });
 
+    socket.on("joined-room", (joinedRoom) => setJoinedRoom(joinedRoom));
+
     return () => {
-      socket.off("username");
-      socket.off("channel-message");
+      socket.off("private-message");
     };
-  }, [channel]);
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [channelMessages]);
+  }, [roomMessages]);
 
-  const joinChannel = () => {
-    if (channel.trim()) {
-      socket.emit("join-channel", channel);
-      setChannelMessages([]);
+  const joinRoom = () => {
+    if (room.trim()) {
+      socket.emit("join-room", room);
+      setRoomMessages([]);
     }
   };
 
-  const sendChannelMessage = () => {
-    if (message.trim() && channel) {
-      socket.emit("channel-message", { channel, message });
+  const sendRoomMessage = () => {
+    if (message.trim() && room) {
+      socket.emit("channel-message", { room, message });
       setMessage("");
     }
   };
@@ -72,27 +74,33 @@ const PrivateChat: React.FC<PrivateChatProps> = ({ socket, username }) => {
           Back to Home
         </button>
       </div>
-      <div className='flex p-3'>
-        <input
-          type='text'
-          value={channel}
-          onChange={(e) => setChannel(e.target.value)}
-          placeholder='Enter room ID'
-          className='px-2 py-1 rounded-md border focus:outline-none focus:ring-2 focus:ring-green-500'
-        />
-        <button
-          onClick={joinChannel}
-          className='px-2 py-1 mx-4 w-40 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500'
-        >
-          Join Room
-        </button>
-      </div>
+      {joinedRoom ? (
+        <div>
+          <p className='p-2 font-semibold text-center'>
+            Welcome to <span className='text-green-500'>{joinedRoom}</span>
+          </p>
+        </div>
+      ) : (
+        <div className='flex p-3'>
+          <input
+            type='text'
+            value={room}
+            onChange={(e) => setRoom(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && joinRoom()}
+            placeholder='Enter room ID'
+            className='px-2 py-1 rounded-md border focus:outline-none focus:ring-2 focus:ring-green-500'
+          />
+          <button
+            onClick={joinRoom}
+            className='px-2 py-1 mx-4 w-40 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500'
+          >
+            Join Room
+          </button>
+        </div>
+      )}
       <div className='flex flex-col flex-grow'>
-        {/* <div className='p-3 font-bold text-white bg-green-500'>
-          {channel || "No channel selected"}
-        </div> */}
         <div className='overflow-y-auto flex-grow p-4 space-y-2'>
-          {channelMessages.map((msg, idx) => (
+          {roomMessages.map((msg, idx) => (
             <div
               key={idx}
               className={`flex ${
@@ -124,15 +132,15 @@ const PrivateChat: React.FC<PrivateChatProps> = ({ socket, username }) => {
               type='text'
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendChannelMessage()}
+              onKeyDown={(e) => e.key === "Enter" && sendRoomMessage()}
               placeholder='Type a message...'
               className='flex-grow px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-green-500'
-              disabled={!channel}
+              disabled={!room}
             />
             <button
-              onClick={sendChannelMessage}
+              onClick={sendRoomMessage}
               className='px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500'
-              disabled={!channel}
+              disabled={!room}
             >
               Send
             </button>
