@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 app.get('/add/:a/:b', (req, res) => {
   const { a, b } = req.params;
 
-  if(typeof a !== 'number' || typeof b !== 'number') {
+  if(typeof a !== 'number' && typeof b !== 'number') {
     return res.status(400).send('Invalid request parameters');
   }
 
