@@ -26,7 +26,10 @@ const App: React.FC = () => {
               path='/public'
               element={<PublicChat socket={socket} username={username} />}
             />
-            <Route path='/private' element={<PrivateChat />} />
+            <Route
+              path='/private'
+              element={<PrivateChat socket={socket} username={username} />}
+            />
           </Routes>
         </main>
       </div>
