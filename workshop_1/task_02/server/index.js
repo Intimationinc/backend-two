@@ -24,14 +24,19 @@ const io = new Server(server, {
   },
 });
 
+
 io.on("connection", (socket) => {
   console.log("socket connected.", socket.id);
   // socket.emit("welcome", `welcome to the server, ${socket.id}`);
   // socket.broadcast.emit("welcome", `welcome to the server, ${socket.id}`);
-  socket.on("message", ({message, room}) => {
-    console.log(message, room)
-    io.to(room).emit("receive-message", message)
-  })
+  socket.on("message", ({ message, room }) => {
+    console.log(message, room);
+    io.to(room).emit("receive-message", message);
+  });
+
+  socket.on("join-room", (room) => {
+    socket.join(room);
+  });
   socket.on("disconnect", () => {
     console.log("server disconnected.", socket.id);
   });

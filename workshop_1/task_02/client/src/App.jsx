@@ -4,13 +4,19 @@ import { io } from "socket.io-client";
 function App() {
   const socket = useMemo(() => io("http://localhost:5500"), []);
   const [message, setMessage] = useState("");
-  const [room, setRoom] = useState({ type: "", roomName: "" });
+  const [user, setUser] = useState("");
+  const [room, setRoom] = useState("");
   const [socketId, setSocketId] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleUserMsg = (e) => {
     e.preventDefault();
-    socket.emit("message", { message, room: room.roomName });
+    socket.emit("message", { message, user });
     setMessage("");
+  };
+
+  const handleRoom = (e) => {
+    e.preventDefault();
+    socket.emit("join-room", room);
   };
 
   useEffect(() => {
@@ -38,7 +44,7 @@ function App() {
       </div>
       <form
         className="border p-4 rounded-md mt-4 bg-slate-100"
-        onSubmit={handleSubmit}
+        onSubmit={handleUserMsg}
       >
         {" "}
         <textarea
@@ -52,7 +58,7 @@ function App() {
           <input
             placeholder="private room"
             type="text"
-            onChange={(e) => setRoom(e.target.value)}
+            onChange={(e) => setUser(e.target.value)}
             className="border p-3 rounded-md flex-1"
           />
           <button
@@ -63,7 +69,7 @@ function App() {
           </button>
         </div>
       </form>
-      <form>
+      <form onSubmit={handleRoom} className="mt-3">
         <div className="flex gap-2 items-center">
           <input
             placeholder="public room"
