@@ -91,6 +91,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.to(data.room).emit('private-message', {
       id: client.id,
       username,
+      room: data.room,
       text: data.message,
       timestamp: new Date(),
     });

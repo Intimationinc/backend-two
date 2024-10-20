@@ -27,7 +27,7 @@ const PrivateChat: React.FC<PrivateChatProps> = ({ socket, username }) => {
 
   useEffect(() => {
     socket.on("private-message", (data: PRIVATE_MESSAGE) => {
-      if (data.room === room) {
+      if (data.room === joinedRoom) {
         setRoomMessages((prev) => [...prev, data]);
       }
     });
@@ -36,8 +36,9 @@ const PrivateChat: React.FC<PrivateChatProps> = ({ socket, username }) => {
 
     return () => {
       socket.off("private-message");
+      socket.off("joined-room");
     };
-  }, []);
+  }, [joinedRoom, socket]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -52,7 +53,7 @@ const PrivateChat: React.FC<PrivateChatProps> = ({ socket, username }) => {
 
   const sendRoomMessage = () => {
     if (message.trim() && room) {
-      socket.emit("channel-message", { room, message });
+      socket.emit("private-message", { room, message });
       setMessage("");
     }
   };
@@ -118,7 +119,11 @@ const PrivateChat: React.FC<PrivateChatProps> = ({ socket, username }) => {
                   {msg.username === username ? "You" : msg.username}
                 </div>
                 <div className='mt-1'>{msg.text}</div>
-                <div className='mt-2 text-xs text-gray-500'>
+                <div
+                  className={`mt-2 text-xs text-gray-500 ${
+                    msg.username === username ? " text-white" : "text-gray-500"
+                  }`}
+                >
                   {moment(msg.timestamp).format("h:mm:ss A")}
                 </div>
               </div>
@@ -135,12 +140,12 @@ const PrivateChat: React.FC<PrivateChatProps> = ({ socket, username }) => {
               onKeyDown={(e) => e.key === "Enter" && sendRoomMessage()}
               placeholder='Type a message...'
               className='flex-grow px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-green-500'
-              disabled={!room}
+              disabled={!joinedRoom}
             />
             <button
               onClick={sendRoomMessage}
               className='px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500'
-              disabled={!room}
+              disabled={!joinedRoom}
             >
               Send
             </button>
