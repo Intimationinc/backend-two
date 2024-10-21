@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Client</title>
+</head>
+<body>
+    <h2>WebSocket Client</h2>
+    <div id="messages"></div>
+
+    <script>
+        // Connect to public channel
+        var publicSocket  = new WebSocket("ws://localhost:8080/ws?channel=pbulic-chat");
+
+        // Event handler for receiving messages
+        publicSocket.onmessage = function(event) {
+            var messagesDiv = document.getElementById("messages");
+            var message = document.createElement("div");
+            message.textContent = "Public: " + event.data;
+            messagesDiv.appendChild(message);
+        };
+
+
+        // Connect to a private channel (with token)
+        var privateSocket  = new WebSocket("ws://localhost:8080/ws?channel=private-chat&token=jwtToken123");
+
+        // Event handler for receiving messages
+        privateSocket.onmessage = function(event) {
+            var messagesDiv = document.getElementById("messages");
+            var message = document.createElement("div");
+            message.textContent = "Private: " + event.data;
+            messagesDiv.appendChild(message);
+        };
+
+
+        // Error handling
+        publicSocket.onerror = privateSocket.onerror = function(error) {
+            console.error("WebSocket Error:", error);
+        };
+        
+    </script>
+</body>
+</html>

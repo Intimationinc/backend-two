@@ -1,0 +1,60 @@
+{
+  "id": "340abfea-ce6a-4f30-8de0-4601baa1493a",
+  "brand": "Dell",
+  "name": "Latitude",
+  "cpu": {
+    "brand": "Intel",
+    "name": "Core i9-9980HK",
+    "number_cores": 7,
+    "number_threads": 8,
+    "min_ghz": 3.333360895166008,
+    "max_ghz": 3.5627033339986585
+  },
+  "ram": {
+    "value": "6",
+    "unit": "GIGABYTE"
+  },
+  "gpus": [
+    {
+      "brand": "Nvidia",
+      "name": "RTX 2060",
+      "min_ghz": 1.2060891313565199,
+      "max_ghz": 1.9744313940172225,
+      "memory": {
+        "value": "3",
+        "unit": "MEGABYTE"
+      }
+    }
+  ],
+  "storages": [
+    {
+      "driver": "HDD",
+      "memory": {
+        "value": "394",
+        "unit": "GIGABYTE"
+      }
+    },
+    {
+      "driver": "HDD",
+      "memory": {
+        "value": "4",
+        "unit": "TERABYTE"
+      }
+    }
+  ],
+  "screen": {
+    "size_inch": 16.794725,
+    "resolution": {
+      "width": 1960,
+      "height": 1103
+    },
+    "panel": "OLED"
+  },
+  "keyboard": {
+    "layout": "AZERTY"
+  },
+  "wight_kg": 1.3423538615780728,
+  "price_usd": 1890.667680495174,
+  "release_year": 2020,
+  "updated_at": "2024-10-21T13:27:48.431137600Z"
+}

@@ -1,0 +1,76 @@
+sudo apt update
+sudo apt install -y protobuf-compiler
+protoc --version
+
+go get -u google.golang.org/protobuf/cmd/protoc-gen-go
+go install google.golang.org/protobuf/cmd/protoc-gen-go
+
+go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
+
+
+# Make sure that your Go binary path (/home/mukbul/go/bin) is included in your PATH environment variable:
+export PATH=$PATH:/home/mukbul/go/bin
+
+
+# To make this change permanent, you can add the line above to your ~/.bashrc or ~/.zshrc file:
+echo 'export PATH=$PATH:/home/mukbul/go/bin' >> ~/.bashrc
+source ~/.bashrc
+
+
+# Generate Go code from all .proto files to this folder [/home/mukbul/projects/go/gRPC/pcbook-go/pb] 
+	protoc --proto_path=/home/mukbul/projects/go/gRPC/pcbook-go/proto \
+    --go_out=/home/mukbul/projects/go/gRPC/pcbook-go/pb --go_opt=paths=source_relative \
+    --go-grpc_out=/home/mukbul/projects/go/gRPC/pcbook-go/pb --go-grpc_opt=paths=source_relative \
+    /home/mukbul/projects/go/gRPC/pcbook-go/proto/*.proto
+
+
+sudo apt install make
+
+# Create Makefile:
+    make clean
+    make gen
+    make server
+    make client
+
+
+# add vscode-proto3 extention's settings:
+-----------------------------------------
+"protoc": {
+        "path": "/usr/bin/protoc",
+        "compile_on_save": false,
+        "options": [
+            "--proto_path=proto"
+        ]
+    }
+
+
+go get github.com/google/uuid
+go get github.com/golang/protobuf/ptypes
+go get google.golang.org/protobuf/proto
+go get testing
+go get github.com/stretchr/testify/require
+
+go get github.com/jinzhu/copier
+
+
+
+------------------------------------------------
+# To test multiple times, you need to run this command:
+    go test ./...
+# To test a single file, you need to run this command:
+    go test ./serializer/file_test.go
+# After running this you need to check each time laptop.json file. 
+# You can change the vaule of these fields:
+    EmitUnpopulated: false, EmitUnpopulated: true,  // EmitUnpopulated specifies whether to emit unpopulated fields.
+    Indent:          "  ",  // Pretty-print the output with indentation
+    UseEnumNumbers:  false, // Set to true if you want enums as integers
+    UseProtoNames:   true,  // ****Use original field names as defined in .proto file. You can change the value to see the changes in the fields name (camelCase instead of snake_case)
+# You may see the changes in the file. Cool!!
+
+# Test code coverage and check whether code has any race condition 
+    go test -cover -race ./...
+
+
+# If you compare laptop.bin and laptop.json files, you can see binary file is 5 times smaller than json file. So gRPC requires lower bandweidth then normal JSON API.
+# Since its smaller, its also faster to transport. So thats a beautiful thing of binary protocol
