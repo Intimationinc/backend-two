@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Public / Private Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <header class="text-gray-600 body-font">
+      <div
+        class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center justify-between"
+      >
+        <a
+          href="{% url 'index' %}"
+          class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+            ></path>
+          </svg>
+          <span class="ml-3 text-xl">WhisperHub</span>
+        </a>
+        <button
+          id="create-new-room-button"
+          class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+        >
+          Create a room
+        </button>
+      </div>
+    </header>
+
+    <section class="text-gray-600 body-font">
+      {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+          {{ message }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <div
+        class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center"
+      >
+        <div
+          class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center"
+        >
+          <h1
+            class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900"
+          >
+            Connect, Chat, and Share Your Moments
+          </h1>
+          <p class="mb-8 leading-relaxed">
+            Join the conversation in our vibrant public chat room or create your
+            own private space to chat with friends. Whether you're here to
+            socialize or keep things private, our chat app makes it easy to
+            connect with those who matter. Dive into meaningful conversations
+            anytime, anywhere!
+          </p>
+          <form
+            method="post"
+            action="{% url 'chat' %}"
+            class="w-2/3 md:justify-start justify-center items-end"
+          >
+            {% csrf_token %}
+            <div class="w-full">
+              <h2 class="text-3xl">Join a room</h2>
+              <input
+                type="text"
+                name="fullname"
+                placeholder="Fullname"
+                class="w-full bg-gray-100 rounded border bg-opacity-50 border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              />
+              <input
+                type="text"
+                name="room-name"
+                placeholder="Room name"
+                class="w-full my-4 bg-gray-100 rounded border bg-opacity-50 border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                class="w-full bg-gray-100 rounded border bg-opacity-50 border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              />
+            </div>
+            <div class="mt-4 flex items-center gap-4">
+              <button
+                type="submit"
+                class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+              >
+                Join a room
+              </button>
+              <button
+                type="button"
+                id="join-public-room-button"
+                class="text-indigo-500 border-2 py-2 px-6 focus:outline-none hover:bg-indigo-600 hover:text-white rounded text-lg"
+              >
+                Join public conversation
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
+          <img
+            class="object-cover object-center rounded"
+            alt="chat illustration"
+            src="{% static 'chat/image/chat_illustration.jpg' %}"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="join-public-room-modal"
+      class="hidden absolute inset-0 flex justify-center items-center"
+    >
+      <div
+        id="join-public-room-modal-backdrop"
+        class="bg-black/30 backdrop-opacity-50 absolute inset-0"
+      ></div>
+      <form
+        method="POST"
+        action="{% url 'chat' %}"
+        class="p-6 z-10 bg-white rounded-lg"
+      >
+        {% csrf_token %}
+        <h3 class="text-2xl text-gray-600">Join public conversation</h3>
+        <input
+          type="text"
+          name="fullname"
+          placeholder="Fullname"
+          required="required"
+          class="w-full my-6 bg-gray-100 rounded border bg-opacity-50 border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+        />
+        <input type="hidden" name="room-name" value="public-room" />
+        <input type="hidden" name="password" value="public-password" />
+        <button
+          type="submit"
+          class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+        >
+          Join now
+        </button>
+      </form>
+    </section>
+
+    <section
+      id="create-new-room-modal"
+      class="hidden absolute inset-0 flex justify-center items-center"
+    >
+      <div
+        id="create-new-room-modal-backdrop"
+        class="bg-black/30 backdrop-opacity-50 absolute inset-0"
+      ></div>
+      <form method="POST" class="p-6 z-10 bg-white rounded-lg">
+        {% csrf_token %}
+        <h3 class="text-2xl text-gray-600">Create a room</h3>
+        <input
+          type="text"
+          name="fullname"
+          placeholder="Fullname"
+          required="required"
+          class="w-full my-6 bg-gray-100 rounded border bg-opacity-50 border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+        />
+        <button
+          type="submit"
+          class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+        >
+          Create now
+        </button>
+      </form>
+    </section>
+
+    <script src="{% static 'chat/js/index.js' %}"></script>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Public / Private Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <header class="text-gray-600 body-font">
+      <div
+        class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center justify-between"
+      >
+        <a
+          href="{% url 'index' %}"
+          class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+            ></path>
+          </svg>
+          <span class="ml-3 text-xl">WhisperHub</span>
+        </a>
+      </div>
+    </header>
+
+    <section
+      class="container mx-auto h-screen text-gray-600 body-font overflow-hidden flex flex-col"
+    >
+      <div class="grow">
+        <div class="w-2/3 p-6 m-6 border-2 bg-white rounded-lg shadow-lg">
+          <h4 class="font-bold mb-1">Md. Rifaet - Ullah</h4>
+          <p class="text-xs text-gray-600 mb-4">21 October 2024 at 10:00 AM</p>
+          <p class="text-xl text-gray-700">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </p>
+        </div>
+        <div class="w-2/3 p-6 m-6 border-2 bg-white rounded-lg shadow-lg">
+          <h4 class="font-bold mb-1">Md. Rifaet - Ullah</h4>
+          <p class="text-xs text-gray-600 mb-4">21 October 2024 at 10:00 AM</p>
+          <p class="text-xl text-gray-700">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </p>
+        </div>
+        <div class="w-2/3 p-6 m-6 border-2 bg-white rounded-lg shadow-lg">
+          <h4 class="font-bold mb-1">Md. Rifaet - Ullah</h4>
+          <p class="text-xs text-gray-600 mb-4">21 October 2024 at 10:00 AM</p>
+          <p class="text-xl text-gray-700">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </p>
+        </div>
+        <div
+          class="w-2/3 p-6 m-6 ml-auto border-2 bg-white rounded-lg shadow-lg"
+        >
+          <h4 class="font-bold mb-1">Md. Rifaet - Ullah</h4>
+          <p class="text-xs text-gray-600 mb-4">21 October 2024 at 10:00 AM</p>
+          <p class="text-xl text-gray-700">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <script src="{% url 'chat/js/chat.js' %}"></script>
+  </body>
+</html>
