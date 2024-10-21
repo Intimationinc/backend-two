@@ -1,0 +1,40 @@
+var upgrader = websocket.Upgrader{
+    CheckOrigin: func(r *http.Request) bool {
+        return true
+    },
+}
+
+func wsHandler(w http.ResponseWriter, r *http.Request) {
+    conn, err := upgrader.Upgrade(w, r, nil)
+    if err != nil {
+        fmt.Println("Error upgrading to WebSocket:", err)
+        return
+    }
+    defer conn.Close()
+}
+
+why we need to use Upgrader?
+****************************************************************************
+
+In Go, when working with WebSockets using the gorilla/websocket library, the Upgrader is used to upgrade an HTTP connection to a WebSocket connection. This process is necessary because WebSockets start as a standard HTTP request, and then, if certain conditions are met, the connection is "upgraded" to use the WebSocket protocol, enabling full-duplex communication between the client and server.
+
+- What Does the Upgrader Do?
+
+Upgrading the HTTP Connection:
+A WebSocket connection begins as an ordinary HTTP request (typically a GET request) sent by the client. To establish a WebSocket connection, the server needs to "upgrade" this HTTP connection to a WebSocket connection.
+The Upgrader is responsible for this process. It verifies the request headers to ensure that the upgrade can happen and then switches the connection protocol from HTTP to WebSocket.
+
+Handling WebSocket Handshake:
+The WebSocket handshake is a process where the server and the client agree to establish a WebSocket connection. The Upgrader performs this handshake by checking specific HTTP headers (like Connection: Upgrade and Upgrade: websocket).
+If the handshake is successful, the connection is upgraded to a WebSocket connection; otherwise, it remains a regular HTTP connection.
+
+
+- Why is Upgrading Necessary?
+WebSocket Protocol Difference: HTTP is a request-response protocol where the client initiates communication. WebSockets, however, allow for bi-directional communication, where both the client and server can send and receive messages at any time. The upgrade is needed to switch from the HTTP protocol to the WebSocket protocol.
+Full-Duplex Communication: Upgrading to WebSockets enables persistent, full-duplex communication, which is ideal for real-time applications like chat services, live updates, or online gaming.
+
+
+- Why Do We Need the Upgrader?
+The Upgrader handles the intricacies of switching protocols, including validating the request and setting up the connection for WebSocket communication.
+Without upgrading, the connection remains a standard HTTP connection, and WebSocket features (like sending and receiving messages asynchronously) wouldn't be available.
+The Upgrader plays a crucial role in establishing a WebSocket connection by transitioning an initial HTTP request into a persistent WebSocket connection, allowing real-time data exchange between the client and server.

@@ -1,0 +1,9 @@
+command
+-------
+go run main.go
+
+paste the link in new fresh tab, and press enter. It works -
+
+http://localhost:8080/cached
+
+http://localhost:8080/non-cached

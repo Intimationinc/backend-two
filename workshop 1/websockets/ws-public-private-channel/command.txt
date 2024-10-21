@@ -1,0 +1,64 @@
+Pre-read for tomorrow's workshop:
+1. adding websocket library to your framework
+2. creating private and public channel
+3. sending and receiving data from and to private and public channel
+
+
+***********************************************************
+Task was sending message over private and public channel on websocket. Set up a websocket library on your framework and connect with the websocket on private and public channel:
+
+Hints:
+    a. Add a websocket library with your framework
+    b. define websocket connection/gateway, you can add two channels for public and private. Note: private channel means it requires authentication. You can define a private channel by writing name like: private-chat. the prefix private- makes it private according to pusher protocol. for now use public channel only. 
+    c. Create a rest endpoint on your framework where user can send a message with message body. 
+    d. upon receiving the request framework should broadcast the message on the websocket channel. Every modern framework support broadcast on socket out of the box. 
+    e. you can use a simple javascript program and pusher driver to listen to your channel and check the message sending and receiving is working.
+
+
+***********************************************************
+- inti project
+    go mod init example/ws-public-private-channel
+- get websocket
+    go get github.com/gorilla/websocket
+
+command:
+--------
+go run main.go   
+
+# Send to public channel
+curl -X POST -d "message=Hello, Public!" -d "channel=public-chat" http://localhost:8080/send
+
+# Send to private channel
+curl -X POST -d "message=Hello, Private!" -d "channel=private-chat" http://localhost:8080/send
+
+-----------------------------------------------------------------
+To implement WebSocket broadcasting using Go, we’ll follow these steps:
+
+- Add a WebSocket library (gorilla/websocket).
+- Define a WebSocket gateway with channels.
+- Create a REST endpoint to receive messages.
+- Broadcast the message to the WebSocket channel.
+- Use a simple JavaScript program to listen for messages.
+
+Let's walk through the steps in detail.
+
+Step 1: Add the WebSocket Library (gorilla/websocket)
+Install the gorilla/websocket package:
+
+Step 2: Define WebSocket Connection/Gateway and Channels
+We’ll set up a WebSocket server and define channels for broadcasting. For simplicity, we'll implement only the public channel. A private channel can be added later with authentication checks.
+
+Explanation:
+    1. WebSocket Upgrader: Converts the HTTP connection to a WebSocket connection using gorilla/websocket.
+    2. Connection Management: Maintains a list of active WebSocket connections using a map and a mutex for thread safety.
+    3. Channel for Broadcasting: Uses a Go channel publicChannel, privateChannel for message broadcasting.
+    4. /ws Endpoint: Upgrades incoming HTTP requests to WebSocket connections and keeps connections alive.
+    5. /send Endpoint: A REST endpoint to accept messages and push them to the public channel or private channel.
+    6. Broadcast Function: Sends messages from the public channel or private channel to all active WebSocket clients.
+
+Step 3: Create a REST Endpoint for Sending Messages
+The /send endpoint reads the message body and broadcasts it to the publicChannel, privateChannel, which is monitored by handleBroadcast() to send the message to all connected clients.
+
+
+
+
