@@ -1,19 +1,28 @@
-import { useContext, useEffect} from "react";
-import {useNavigate} from 'react-router-dom'
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSocket } from "./socket";
 
 const Register = () => {
   const socket = useSocket();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleRegister = (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.username.value;
     socket.emit("register", name);
     form.reset();
-    navigate('/chat')
-
+    navigate("/chat", { state: { name } });
   };
+
+  // useEffect(() => {
+  //   socket.on("connect", () => {
+  //     console.log("connected", socket.id);
+  //   });
+
+  //   return () => {
+  //     socket.off();
+  //   };
+  // }, [socket]);
 
   return (
     <div className="flex justify-center mt-10">

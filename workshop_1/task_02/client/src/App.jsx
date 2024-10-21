@@ -4,7 +4,7 @@ import { useSocket } from "./socket";
 import { Outlet, useNavigate } from "react-router-dom";
 
 function App() {
-  const socket = useSocket();
+
 
   // const handleRoom = (e) => {
   //   e.preventDefault();
@@ -23,22 +23,7 @@ function App() {
   //   form.reset()
   // };
 
-  useEffect(() => {
-    socket.on("connect", () => {
-      console.log("connected", socket.id);
-    });
-    socket.on("welcome", (s) => {
-      console.log(s);
-    });
 
-    socket.on("receive-message", (data) => {
-      console.log(data);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [socket]);
 
   return (
     <div className=" m-4">

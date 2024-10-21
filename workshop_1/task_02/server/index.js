@@ -27,22 +27,36 @@ const io = new Server(server, {
   },
 });
 // SECRET_KEY
-const user = new Map()
+const users = new Map();
 
 io.on("connection", (socket) => {
   console.log("socket connected.", socket.id);
   // socket.emit("welcome", `welcome to the server, ${socket.id}`);
-  // socket.broadcast.emit("welcome", `welcome to the server, ${socket.id}`);
-  socket.on("message", ({ message, user }) => {
-    console.log(message, user);
-    io.to(user).emit("receive-message", message);
+  // socket.emit('connect', socket.id)
+  socket.on("register", (name) => {
+    users.set(name, socket.id);
+    console.log(`${name} register with socket id: ${socket.id}`);
+    // and save it to db
   });
 
-  socket.on("register", (name) => {
-    user.set(name, socket.id)
-    console.log(`${name} register with socket id: ${socket.id}`)
-    // and save it to db
-  })
+  socket.on("join-room", ({ name, user }) => {
+    console.log(user, " joined the ", name);
+    socket.join(name);
+    // socket.broadcast.to(room).emit(user, "joined the room");
+  });
+
+  // socket.broadcast.emit("welcome", `welcome to the server, ${socket.id}`);
+  socket.on("sendMessage", ({ message, toUser, fromUser, type }) => {
+    console.log(message, toUser, type, fromUser);
+    const recipient = users.get(toUser);
+    if (recipient) {
+      console.log("ok");
+      io.to(recipient).emit("receiveMessage", { fromUser, toUser, message });
+    } else {
+      io.to(toUser).emit("receiveMessage", { fromUser, toUser, message });
+    }
+    // io.to(user).emit("receive-message", message);
+  });
 
   app.post("/private/:id", async (req, res) => {
     const user = req.params.id;
