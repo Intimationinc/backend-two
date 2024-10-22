@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "FIFO_Data_Structure/1.0.0": {
+        "runtime": {
+          "FIFO_Data_Structure.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FIFO_Data_Structure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
