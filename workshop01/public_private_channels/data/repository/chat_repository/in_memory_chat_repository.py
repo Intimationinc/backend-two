@@ -9,7 +9,7 @@ class InMemoryChatRepository(ChatRepository):
         "public-room": {
             "access_key": "public-room-password",
             "people": [],
-            "conversations": []
+            "conversations": [],
         }
     }
 

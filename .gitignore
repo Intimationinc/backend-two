@@ -5,6 +5,7 @@ __pycache__/
 *$py.class
 **/static/
 **/media/
+!workshop01/public_private_channels/chat/static/
 
 # C extensions
 *.so
