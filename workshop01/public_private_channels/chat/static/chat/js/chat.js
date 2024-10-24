@@ -20,18 +20,17 @@ const scrollToBottom = () => {
 }
 
 const displayMessage = (message) => {
-    let showOnRightSide = message.name === username
-    let date = message.datetime.getDate()
-    let month = months[message.datetime.getMonth()]
-    let year = message.datetime.getFullYear()
-    let hour = message.datetime.getHours()
-    let minute = message.datetime.getMinutes()
-    let second = message.datetime.getSeconds()
-    let partOfTheDay = "AM"
-    if (hour > 12) {
-        partOfTheDay = "PM"
-        hour = 24 - hour
+    if (message.messageType === "notification") {
+        displaySystemMessage(message)
+    } else {
+        displayChatMessage(message)
     }
+
+    scrollToBottom()
+}
+
+const displayChatMessage = (message) => {
+    let showOnRightSide = message.name === username
 
     let messageCard = document.createElement("div")
     let nameContainer = document.createElement("h4")
@@ -42,10 +41,10 @@ const displayMessage = (message) => {
     nameContainer.innerText = message.name
 
     messageTime.classList.add("text-xs", "text-gray-600", "mb-4")
-    messageTime.innerText = `${date} ${month} ${year} at ${hour}:${minute}:${second} ${partOfTheDay}`
+    messageTime.innerText = message.datetime
 
     messageContent.classList.add("text-xl", "text-gray-700")
-    messageContent.innerText = message.text
+    messageContent.innerText = message.message
 
     messageCard.appendChild(nameContainer)
     messageCard.appendChild(messageTime)
@@ -57,8 +56,22 @@ const displayMessage = (message) => {
         messageCard.classList.add("w-2/3", "p-6", "m-6", "border-2", "bg-white", "rounded-lg", "shadow-lg")
     }
     messageContainer.appendChild(messageCard)
+}
 
-    scrollToBottom()
+const displaySystemMessage = (message) => {
+    let messageCard = document.createElement("div")
+    let horizontalLine = document.createElement("hr")
+    let messageContent = document.createElement("p")
+
+    horizontalLine.classList.add("w-3/5", "border-1", "border-blue-100")
+    messageContent.classList.add("absolute", "text-xs", "text-gray-600", "bg-white", "px-3", "left-1/2", "-translate-x-1/2")
+    messageContent.innerText = message.message
+
+    messageCard.appendChild(horizontalLine)
+    messageCard.appendChild(messageContent)
+
+    messageCard.classList.add("my-8", "flex", "justify-center", "items-center")
+    messageContainer.appendChild(messageCard)
 }
 
 const sendMessage = (message) => {
@@ -87,17 +100,27 @@ messageSendButton.addEventListener("click", () => {
     sendMessage(inputMessageElement.value)
 })
 
+chatSocket.onopen = function (e) {
+    console.log("Connection established")
+};
+
 chatSocket.onmessage = function (e) {
     let data = JSON.parse(e.data);
-    let formattedMessage = {
-        name: data.name,
-        datetime: new Date(data.datetime),
-        text: data.text
+
+    if (data.type === "chatHistory") {
+        data.messages.forEach(message => {
+            messages.push(message)
+            displayMessage(message)
+        })
+    } else if (data.type === "chatMessage") {
+        messages.push(data.message)
+        displayMessage(data.message)
     }
-    messages.push(formattedMessage)
-    displayMessage(formattedMessage)
+
+    scrollToBottom()
+    console.log(messages)
 };
 
 chatSocket.onclose = function (e) {
-    console.error('Chat socket closed unexpectedly');
+    console.error('Chat socket closed unexpectedly')
 };

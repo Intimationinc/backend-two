@@ -9,5 +9,9 @@ class ChatRepository(ABC):
         raise NotImplementedError("Implement has_access method")
 
     @abstractmethod
+    def join_conversation(self, room_name: str, name: str):
+        raise NotImplementedError("Implement join_conversation method")
+
+    @abstractmethod
     def get_conversations(self, room_name: str) -> list[Conversation]:
         raise NotImplementedError("Implement get_conversations method")

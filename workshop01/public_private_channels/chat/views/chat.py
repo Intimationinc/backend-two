@@ -28,7 +28,7 @@ class Chat(View):
                 messages.error(request, error_message)
             return redirect("index")
 
-        fullname = form.cleaned_data.get("fullname")
+        fullname = form.cleaned_data.get("name")
         room_name = form.cleaned_data.get("room_name")
         password = form.cleaned_data.get("password")
         has_access = self.__repository.chat_repository.has_access(room_name, password)
@@ -40,7 +40,7 @@ class Chat(View):
 
         token = jwt.encode(
             payload={
-                "fullname": fullname,
+                "name": fullname,
                 "roomName": room_name,
                 "password": password,
             },
@@ -61,7 +61,7 @@ class Chat(View):
     def __get_form(data: dict[str, str]) -> ChatJoiningForm:
         return ChatJoiningForm(
             data={
-                "fullname": data.get("fullname"),
+                "name": data.get("name"),
                 "room_name": data.get("room-name"),
                 "password": data.get("password"),
             }
