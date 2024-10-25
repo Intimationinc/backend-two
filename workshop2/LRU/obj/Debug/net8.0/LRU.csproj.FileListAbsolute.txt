@@ -1,0 +1,15 @@
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\bin\Debug\net8.0\LRU.exe
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\bin\Debug\net8.0\LRU.deps.json
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\bin\Debug\net8.0\LRU.runtimeconfig.json
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\bin\Debug\net8.0\LRU.dll
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\bin\Debug\net8.0\LRU.pdb
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\obj\Debug\net8.0\LRU.GeneratedMSBuildEditorConfig.editorconfig
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\obj\Debug\net8.0\LRU.AssemblyInfoInputs.cache
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\obj\Debug\net8.0\LRU.AssemblyInfo.cs
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\obj\Debug\net8.0\LRU.csproj.CoreCompileInputs.cache
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\obj\Debug\net8.0\LRU.sourcelink.json
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\obj\Debug\net8.0\LRU.dll
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\obj\Debug\net8.0\refint\LRU.dll
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\obj\Debug\net8.0\LRU.pdb
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\obj\Debug\net8.0\LRU.genruntimeconfig.cache
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\LRU\obj\Debug\net8.0\ref\LRU.dll

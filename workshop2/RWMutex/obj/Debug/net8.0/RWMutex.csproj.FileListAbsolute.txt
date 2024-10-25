@@ -1,0 +1,15 @@
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\bin\Debug\net8.0\RWMutex.exe
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\bin\Debug\net8.0\RWMutex.deps.json
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\bin\Debug\net8.0\RWMutex.runtimeconfig.json
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\bin\Debug\net8.0\RWMutex.dll
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\bin\Debug\net8.0\RWMutex.pdb
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\obj\Debug\net8.0\RWMutex.GeneratedMSBuildEditorConfig.editorconfig
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\obj\Debug\net8.0\RWMutex.AssemblyInfoInputs.cache
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\obj\Debug\net8.0\RWMutex.AssemblyInfo.cs
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\obj\Debug\net8.0\RWMutex.csproj.CoreCompileInputs.cache
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\obj\Debug\net8.0\RWMutex.sourcelink.json
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\obj\Debug\net8.0\RWMutex.dll
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\obj\Debug\net8.0\refint\RWMutex.dll
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\obj\Debug\net8.0\RWMutex.pdb
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\obj\Debug\net8.0\RWMutex.genruntimeconfig.cache
+C:\My Folders\Selise\Learning\Dot Net\IntimationProjects\backend-two\workshop2\RWMutex\obj\Debug\net8.0\ref\RWMutex.dll
