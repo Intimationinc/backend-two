@@ -14,7 +14,6 @@ const packageDefinition = protoLoader.loadSync(
     oneofs: true,
   }
 );
-
 const protoDescriptor = grpc.loadPackageDefinition(packageDefinition).auth;
 
 
