@@ -41,7 +41,7 @@ const main = () => {
     "0.0.0.0:50051",
     grpc.ServerCredentials.createInsecure(),
     () => {
-      console.log("grpc servers is running");
+      console.log("grpc server is running");
     }
   );
 };
