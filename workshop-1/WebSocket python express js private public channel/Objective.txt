@@ -1,0 +1,37 @@
+Objective of the WebSocket Practice Task:
+
+The goal is to implement two types of channels: 
+a public channel and 
+a private channel, 
+each accessible via their respective REST API endpoints (/public and /private).
+
+Create a web page from where client will connect to public / private channel.
+   
+   Messages sent to a public channel are broadcasted to all users subscribed to that channel.
+   Private channels are restricted to specific users or groups. 
+   Only users with the proper authorization can subscribe to or receive messages from a private channel.
+   
+
+Public Channel Implementation:
+First, I will create a basic JavaScript program that connects to the WebSocket server, joins the public channel, 
+and enables the sending and receiving of messages.
+
+On the server side, when a user connects and emits an event, the server listens for this event and adds the user to 
+the public channel. Users can then send messages, which the server will broadcast to all participants in the channel.
+
+Additionally, I will create a /send-public-message API endpoint on the server, allowing users to send public messages via an 
+HTTP POST request. The server will subsequently broadcast these messages to the public WebSocket channel.
+
+Private Channel Implementation:
+The approach for the private channel will mirror that of the public channel, with the added layer of simple authentication 
+to ensure users are authenticated before joining the private channel.
+
+
+
+mkdir websocket-server
+cd websocket-server
+npm init -y
+npm install express ws body-parser
+touch server.js   # or create the file using a text editor
+node server.js
+
