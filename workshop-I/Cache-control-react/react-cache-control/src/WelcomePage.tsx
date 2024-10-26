@@ -40,10 +40,14 @@ const WelcomePage: React.FC = () => {
   // Function to handle authentication
   const handleAuthentication = async () => {
     try {
-      // Simulate authentication by calling an API
-      const response = await axios.post("http://localhost:5000/authenticate", {
-        username,
-      });
+      // Simulate authentication by calling an API //localhost
+      const response = await axios.post(
+        // "https://chatbot.autonetmate.com:50001/authenticate",
+        "http://localhost:5000/authenticate",
+        {
+          username,
+        }
+      );
       if (response.status === 200) {
         setAuthenticated(true); // Set authenticated to true on success
         setAuthError(null); // Clear any previous error

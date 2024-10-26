@@ -31,6 +31,7 @@ const WebSocketComponent: React.FC<WebSocketComponentProps> = ({
   const [messageContent, setMessageContent] = useState<string>("");
 
   useEffect(() => {
+    // const newSocket = new WebSocket("wss://chatbot.autonetmate.com:50001");
     const newSocket = new WebSocket("ws://localhost:5000");
     setSocket(newSocket);
 
