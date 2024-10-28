@@ -1,8 +1,8 @@
-from data.repository.chat_repository import InMemoryChatRepository
-from domain.repository import ChatRepository
+from data.repository.room_repository import InMemoryRoomRepository
+from domain.repository import RoomRepository
 
 
 class Repository:
     @property
-    def chat_repository(self) -> ChatRepository:
-        return InMemoryChatRepository(max_conversation_limit=100)
+    def room_repository(self) -> RoomRepository:
+        return InMemoryRoomRepository()

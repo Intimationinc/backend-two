@@ -3,11 +3,13 @@ from datetime import UTC, datetime, timedelta
 import jwt
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.hashers import check_password
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
 
 from di import Repository
+from domain.models import User
 
 from ..forms import ChatJoiningForm, get_form_errors
 
@@ -28,19 +30,35 @@ class Chat(View):
                 messages.error(request, error_message)
             return redirect("index")
 
-        fullname = form.cleaned_data.get("name")
+        name = form.cleaned_data.get("name")
         room_name = form.cleaned_data.get("room_name")
         password = form.cleaned_data.get("password")
-        has_access = self.__repository.chat_repository.has_access(room_name, password)
-        if not has_access:
-            messages.error(
-                request, "Invalid room name or you do not have access to this room."
-            )
+
+        room = self.__repository.room_repository.get(room_name)
+        if room is None:
+            messages.error(request, "Invalid room name.")
+            return redirect("index")
+
+        holding_valid_access_code = check_password(
+            password=room.access_code, encoded=password
+        )
+        if room_name == "public-room":
+            holding_valid_access_code = True
+
+        if not holding_valid_access_code:
+            messages.error(request, "You do not have access to the is room.")
+            return redirect("index")
+
+        user = User(name=name)
+        try:
+            self.__repository.room_repository.join(room_name, user)
+        except RuntimeError as e:
+            messages.error(request, str(e))
             return redirect("index")
 
         token = jwt.encode(
             payload={
-                "name": fullname,
+                "userId": user.user_id,
                 "roomName": room_name,
                 "password": password,
             },

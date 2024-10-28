@@ -70,7 +70,7 @@ const displaySystemMessage = (message) => {
     messageCard.appendChild(horizontalLine)
     messageCard.appendChild(messageContent)
 
-    messageCard.classList.add("my-8", "flex", "justify-center", "items-center")
+    messageCard.classList.add("my-8", "flex", "justify-center", "items-center", "relative")
     messageContainer.appendChild(messageCard)
 }
 
@@ -78,16 +78,12 @@ const sendMessage = (message) => {
     let strippedMessage = message.trim()
     if (strippedMessage.length > 0) {
         let formattedMessage = {
-            name: username,
-            datetime: new Date(),
-            text: message
+            message: message
         }
 
-        messages.push(formattedMessage)
-        displayMessage(formattedMessage)
         chatSocket.send(JSON.stringify(formattedMessage))
+        inputMessageElement.value = ""
     }
-    inputMessageElement.value = ""
 }
 
 inputMessageElement.addEventListener("keydown", (e) => {
@@ -115,12 +111,14 @@ chatSocket.onmessage = function (e) {
     } else if (data.type === "chatMessage") {
         messages.push(data.message)
         displayMessage(data.message)
+    } else {
+        console.log(data)
     }
 
     scrollToBottom()
-    console.log(messages)
 };
 
 chatSocket.onclose = function (e) {
-    console.error('Chat socket closed unexpectedly')
+    console.log('Chat socket closed unexpectedly')
+    console.error(e)
 };
