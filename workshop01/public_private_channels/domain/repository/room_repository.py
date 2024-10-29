@@ -5,7 +5,7 @@ from ..models import Room, User
 
 class RoomRepository(ABC):
     @abstractmethod
-    def add(self, room: Room):
+    def add(self, room: Room) -> Room:
         raise NotImplementedError("Implement add method")
 
     @abstractmethod

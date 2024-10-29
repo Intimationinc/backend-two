@@ -12,9 +12,11 @@ class InMemoryRoomRepository(RoomRepository):
         ),
     }
 
-    def add(self, room: Room):
+    def add(self, room: Room) -> Room:
         if room.name not in self.__rooms:
             self.__rooms[room.name] = room
+
+        return self.__rooms[room.name]
 
     def get(self, room_name: str) -> Room | None:
         return self.__rooms.get(room_name)

@@ -11,7 +11,7 @@ from django.views import View
 from di import Repository
 from domain.models import User
 
-from ..forms import ChatJoiningForm, get_form_errors
+from ..forms import RoomForm, get_form_errors
 
 
 class Chat(View):
@@ -40,7 +40,7 @@ class Chat(View):
             return redirect("index")
 
         holding_valid_access_code = check_password(
-            password=room.access_code, encoded=password
+            password=password, encoded=room.access_code
         )
         if room_name == "public-room":
             holding_valid_access_code = True
@@ -76,8 +76,8 @@ class Chat(View):
         return response
 
     @staticmethod
-    def __get_form(data: dict[str, str]) -> ChatJoiningForm:
-        return ChatJoiningForm(
+    def __get_form(data: dict[str, str]) -> RoomForm:
+        return RoomForm(
             data={
                 "name": data.get("name"),
                 "room_name": data.get("room-name"),

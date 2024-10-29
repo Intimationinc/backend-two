@@ -1,4 +1,5 @@
 import json
+from datetime import UTC, datetime
 
 import jwt
 from channels.generic.websocket import WebsocketConsumer
@@ -7,7 +8,7 @@ from django.contrib.auth.hashers import check_password
 
 from di import Repository
 from domain.models import Conversation, MessageType
-from datetime import datetime, UTC
+
 from ..forms import ConversationForm, get_form_errors
 
 
@@ -128,7 +129,7 @@ class ChatConsumer(WebsocketConsumer):
                 break
 
         holding_valid_access_code = check_password(
-            password=room.access_code, encoded=payload.get("password")
+            password=payload.get("password"), encoded=room.access_code
         )
         if room.name == "public-room":
             holding_valid_access_code = True
