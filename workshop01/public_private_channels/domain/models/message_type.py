@@ -1,8 +1,8 @@
 from enum import StrEnum
 
 
-class MessageType:
-    Chat = "chat"
+class MessageType(StrEnum):
+    Chat = "chatMessage"
     System = "system"
     Notification = "notification"
     Error = "error"

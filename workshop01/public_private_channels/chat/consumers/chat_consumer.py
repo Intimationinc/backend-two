@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import check_password
 
 from di import Repository
 from domain.models import Conversation, MessageType
-
+from datetime import datetime, UTC
 from ..forms import ConversationForm, get_form_errors
 
 
@@ -25,12 +25,33 @@ class ChatConsumer(WebsocketConsumer):
             return
 
         self.accept()
+
         user_id = payload.get("userId")
         room = self.__repository.room_repository.get(room_name=payload.get("roomName"))
+        joining_conversation = None
+        current_datetime = datetime.now(tz=UTC)
         for index, user in enumerate(room.users):
             if user.user_id == user_id:
+                joining_conversation = Conversation(
+                    name=user.name,
+                    message=f"{user.name} joined the conversation at {current_datetime.strftime('%d %B %Y %I:%M:%S %p (%Z)')}",
+                    message_type=MessageType.Notification,
+                    datetime=current_datetime,
+                )
+                room.conversations.append(joining_conversation)
                 room.users[index].socket = self
                 break
+
+        for user in room.users:
+            if user.user_id != user_id and joining_conversation is not None:
+                user.socket.send(
+                    text_data=json.dumps(
+                        {
+                            "type": MessageType.Chat,
+                            "message": joining_conversation.as_dict(),
+                        }
+                    )
+                )
 
         self.send(
             text_data=json.dumps(
@@ -76,7 +97,7 @@ class ChatConsumer(WebsocketConsumer):
         conversation = Conversation(
             name=user.name, message=form.cleaned_data.get("message")
         )
-        print(conversation)
+        room.conversations.append(conversation)
 
         for user in room.users:
             user.socket.send(

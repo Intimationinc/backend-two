@@ -1,6 +1,4 @@
-from datetime import UTC, datetime
-
-from domain.models import Conversation, MessageType, Room, User
+from domain.models import Room, User
 from domain.repository import RoomRepository
 
 
@@ -26,16 +24,7 @@ class InMemoryRoomRepository(RoomRepository):
         if room is None:
             raise ValueError("Invalid room name")
 
-        current_datetime = datetime.now(tz=UTC)
         room.users.append(user)
-        room.conversations.append(
-            Conversation(
-                name=user.name,
-                message=f"{user.name} joined the conversation at {current_datetime.strftime('%d %B %Y %I:%M:%S %p (%Z)')}",
-                message_type=MessageType.Notification,
-                datetime=current_datetime,
-            )
-        )
 
     def delete(self, room_name: str):
         del self.__rooms[room_name]

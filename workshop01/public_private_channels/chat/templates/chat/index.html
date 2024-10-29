@@ -62,7 +62,7 @@
           >
             Connect, Chat, and Share Your Moments
           </h1>
-          <p class="mb-8 leading-relaxed">
+          <p class="mb-16 leading-relaxed">
             Join the conversation in our vibrant public chat room or create your
             own private space to chat with friends. Whether you're here to
             socialize or keep things private, our chat app makes it easy to
@@ -72,31 +72,36 @@
           <form
             method="post"
             action="{% url 'chat' %}"
+            autocomplete="off"
             class="w-2/3 md:justify-start justify-center items-end"
           >
             {% csrf_token %}
             <div class="w-full">
-              <h2 class="text-3xl">Join a room</h2>
+              <h2 class="text-3xl mb-4">Join a room</h2>
               <input
                 type="text"
                 name="name"
                 placeholder="Fullname"
+                required
                 class="w-full bg-gray-100 rounded border bg-opacity-50 border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
               <input
                 type="text"
                 name="room-name"
                 placeholder="Room name"
+                required
                 class="w-full my-4 bg-gray-100 rounded border bg-opacity-50 border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
               <input
                 type="password"
                 name="password"
                 placeholder="Password"
+                required
+                autocomplete
                 class="w-full bg-gray-100 rounded border bg-opacity-50 border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
             </div>
-            <div class="mt-4 flex items-center gap-4">
+            <div class="mt-6 flex items-center gap-4">
               <button
                 type="submit"
                 class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
@@ -142,7 +147,7 @@
           type="text"
           name="name"
           placeholder="Fullname"
-          required="required"
+          required
           class="w-full my-6 bg-gray-100 rounded border bg-opacity-50 border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
         />
         <input type="hidden" name="room-name" value="public-room" />
@@ -171,7 +176,7 @@
           type="text"
           name="name"
           placeholder="Fullname"
-          required="required"
+          required
           class="w-full my-6 bg-gray-100 rounded border bg-opacity-50 border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
         />
         <button
