@@ -1,0 +1,26 @@
+{
+  "name": "chatapp_server",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun run index.ts",
+    "dev": "bun --watch --smol run index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.12",
+    "@types/express": "^5.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/mongoose": "^5.11.97",
+    "@types/socket.io": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "fs": "^0.0.1-security",
+    "mongoose": "^8.7.2",
+    "socket.io": "^4.8.0"
+  }
+}
