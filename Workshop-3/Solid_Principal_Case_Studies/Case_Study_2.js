@@ -12,28 +12,29 @@ class ContractEmployee extends Employee {
   }
 }
 
-// PayRoll calculation
-class PayrollCalculation {
-  constructor(employee, contractEmployee) {
-    this.employee = employee;
-    this.contractEmployee = contractEmployee;
-  }
-
-  calculateGeneralEmployeeSalary(hours, wage) {
-    const salary = this.employee.calculateSalary(hours, wage);
-    return salary;
-  }
-  calculateContractEmployeeSalary(fixedSalary) {
-    const salary = this.contractEmployee.calculateSalary(fixedSalary);
-    return salary;
+class PayrollFactory {
+  processPayRoll(employeeType) {
+    let payRollCalculation;
+    switch (employeeType) {
+      case "general":
+       return payRollCalculation = new Employee();
+      case "contract":
+       return payRollCalculation = new ContractEmployee();
+      default:
+        throw new Error("Unknown employee type");
+    }
   }
 }
 
-function payRoll() {
-  const employee = new Employee();
-  const contractEmployee = new ContractEmployee();
-  return new PayrollCalculation(employee, contractEmployee);
+class PayRollCalculation{
+    calculatePayRoll(){
+        const payRollCalculations = new PayrollFactory().processPayRoll('contract');
+        const salary = payRollCalculations.calculateSalary(9000)
+        return salary
+    }   
 }
 
-const payRollCalculation = payRoll();
+
+const payRollCalculation = new PayRollCalculation();
+ console.log(payRollCalculation.calculatePayRoll())
 
