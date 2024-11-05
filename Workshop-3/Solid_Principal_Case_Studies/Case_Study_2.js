@@ -27,14 +27,13 @@ class PayrollFactory {
 }
 
 class PayRollCalculation{
-    calculatePayRoll(){
-        const payRollCalculations = new PayrollFactory().processPayRoll('contract');
-        const salary = payRollCalculations.calculateSalary(9000)
-        return salary
+    calculatePayRoll(employType){
+        const payRollCalculations = new PayrollFactory().processPayRoll(employType);
+        return payRollCalculations
     }   
 }
 
 
-const payRollCalculation = new PayRollCalculation();
- console.log(payRollCalculation.calculatePayRoll())
+const payRollCalculation = new PayRollCalculation().calculatePayRoll('general');
+
 
