@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket Client</title>
+    <!-- Bootstrap CSS CDN link -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        /* Custom styling */
+        body {
+            padding: 20px;
+        }
+        .messages {
+            margin-top: 20px;
+        }
+        .outgoing-message {
+            text-align: right;
+            background-color: #308d46;
+            color: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .incoming-message {
+            text-align: left;
+            background-color: #2c3e50;
+            color: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .gfg-color {
+            background-color: #308d46;
+            color: white;
+        }
+        .gfg-color:hover {
+            color: white;
+        }
+        .gfg-blue {
+            background-color: #2c3e50;
+            color: white;
+        }
+        .gfg-blue:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Public Chat Section -->
+    <h2>Public Chat</h2>
+    <div class="row">
+        <div class="col">
+            <input type="text" id="name" class="form-control mb-2" placeholder="Your Name" />
+            <input id="connectButton" type="button" value="Connect to Public Chat" class="btn gfg-blue mb-2" onclick="connect()" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <input type="text" id="publicMessage" class="form-control mb-2" placeholder="Type a public message" />
+            <input type="button" value="Send" class="btn gfg-color mb-2" onclick="sendToGroupChat()" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div id="publicMessages" class="messages border p-3"></div>
+        </div>
+    </div>
+
+    <!-- Private Chat Section -->
+    <h2>Private Chat</h2>
+    <div class="row">
+        <div class="col">
+            <input type="text" id="privateUsername" class="form-control mb-2" placeholder="Enter your username for private chat" />
+            <input id="privateConnectButton" type="button" value="Connect to Private Chat" class="btn gfg-blue mb-2" onclick="connectToPrivateChat(document.getElementById('privateUsername').value)" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <input type="text" id="recipient" class="form-control mb-2" placeholder="Recipient's Username" />
+            <input type="text" id="privateMessage" class="form-control mb-2" placeholder="Type a private message" />
+            <input type="button" value="Send" class="btn gfg-color mb-2" onclick="sendPrivateMessage()" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div id="privateMessages" class="messages border p-3"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

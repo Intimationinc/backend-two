@@ -1,0 +1,11 @@
+package com.zahid.cache_header.config;
+
+/**
+ * @author Md. Zahid Hasan Jamil
+ * @project cache-header
+ * @created 18/10/2024
+ * @copyright © 2024 Md. Zahid Hasan Jamil. All rights reserved.
+ * Licensed under the MIT License. See https://opensource.org/licenses/MIT
+ */
+public class WebConfig {
+}
