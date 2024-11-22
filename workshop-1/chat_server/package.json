@@ -1,0 +1,32 @@
+{
+  "name": "expense_tracker",
+  "version": "1.0.0",
+  "description": "A expense tracking application",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShakibUddin/expense_tracker.git"
+  },
+  "author": "Md Shakib Uddin Bhuiyan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShakibUddin/expense_tracker/issues"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.11.3",
+    "nodemon": "^3.1.4",
+    "socket.io": "^4.8.0"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.2"
+  }
+}
