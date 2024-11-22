@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Public / Private Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <header class="w-full bg-white text-gray-600 body-font fixed z-20">
+      <div
+        class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center justify-between"
+      >
+        <a
+          href="{% url 'index' %}"
+          class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+            ></path>
+          </svg>
+          <span class="ml-3 text-xl">WhisperHub</span>
+        </a>
+      </div>
+    </header>
+
+    <section
+      class="container mx-auto h-screen text-gray-600 body-font overflow-hidden flex flex-col"
+    >
+      <div id="messages" class="grow scroll-smooth overflow-y-scroll">
+        <div class="h-20"></div>
+      </div>
+      <div
+        class="w-3/5 mx-auto mt-4 mb-12 border-2 bg-white rounded-lg shadow-lg border-blue-100 flex items-center"
+      >
+        <input
+          id="input-message"
+          type="text"
+          placeholder="Type your message"
+          class="p-6 rounded-lg grow focus:outline-none"
+        />
+        <img
+          id="message-send-button"
+          src="{% static 'chat/image/send.png' %}"
+          alt="Send"
+          class="w-12 h-12 p-3 mr-4 cursor-pointer rounded-full hover:bg-blue-100 hover:shadow-md"
+        />
+      </div>
+    </section>
+
+    <script src="{% static 'chat/js/chat.js' %}"></script>
+  </body>
+</html>

@@ -24,3 +24,8 @@ This repository is for submitting tasks and assignments, doing practices and eva
 ## Please note 
 
 > We will learn about github best practices, jargons, git strategies too in separate repository. But it is highly recommended that you maintain github norms here
+
+## Workshop 01
+- Try caching with cache-control in your framework
+- Set up a websocket library on your framework and connect with the websocket on private and public channel
+- <b>Take away:</b> Write simple gRPC program which can call an add method on another program
